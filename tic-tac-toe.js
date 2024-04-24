@@ -32,3 +32,23 @@ const gameboard = (function () {
     }
     return {gameArray, completedGame};
 })();
+
+gameboard.gameArray[0] = 'x';
+gameboard.gameArray[1] = '0';
+gameboard.gameArray[2] = 'x';
+
+const displayController = (function () {
+    const tilesGrid = document.createElement("div");
+    document.body.appendChild(tilesGrid);  
+
+    const updateDisplay = () => {
+        tilesGrid.innerHTML = "";
+        gameboard.gameArray.forEach((value) => {
+            const tile = document.createElement("div");
+            const tileContent = document.createTextNode(value);
+            tile.appendChild(tileContent);
+            tilesGrid.appendChild(tile);
+        })
+    }
+    return {updateDisplay};
+})();
