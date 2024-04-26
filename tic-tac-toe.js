@@ -2,6 +2,7 @@ const gameboard = (function () {
     const gameArray = [];
     gameArray.length = 10;
     gameArray.fill('');
+    let playerTurn = 'X';
 
     const completedGame = () => {
         const scanLine = (i, j, k) => {
@@ -30,7 +31,17 @@ const gameboard = (function () {
             return false;
         }
     }
-    return {gameArray, completedGame};
+
+    function markTile (event) {
+        let index = +event.currentTarget.className;
+        if (gameArray[index] === '') {
+            gameArray[index] = playerTurn;
+            playerTurn = playerTurn === 'X' ? 'O' : 'X';
+            displayController.updateDisplay();
+        }
+    }
+
+    return {gameArray, completedGame, markTile};
 })();
 
 gameboard.gameArray[0] = 'x';
@@ -43,8 +54,10 @@ const displayController = (function () {
 
     const updateDisplay = () => {
         tilesGrid.innerHTML = "";
-        gameboard.gameArray.forEach((value) => {
+        gameboard.gameArray.forEach((value, index) => {
             const tile = document.createElement("div");
+            tile.classList.add(`${index}`)
+            tile.addEventListener("click", gameboard.markTile);
             const tileContent = document.createTextNode(value);
             tile.appendChild(tileContent);
             tilesGrid.appendChild(tile);
@@ -52,3 +65,5 @@ const displayController = (function () {
     }
     return {updateDisplay};
 })();
+
+displayController.updateDisplay();
