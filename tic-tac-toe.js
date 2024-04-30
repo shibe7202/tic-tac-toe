@@ -1,8 +1,27 @@
 const gameboard = (function () {
-    const gameArray = [];
-    gameArray.length = 10;
+    let gameArray = [];
+    gameArray.length = 9;
     gameArray.fill('');
     let playerTurn = 'X';
+    let tiedGame = false;
+    let player1 = "Player 1";
+    let player2 = "Player 2";
+
+    function newGame () {
+        resetArray();  
+        playerTurn = 'X'; 
+        tiedGame = false;   
+        player1 = document.getElementById("player-1").value;
+        player2 = document.getElementById("player-2").value;
+        resultDisplay.innerHTML = "";
+        displayController.updateDisplay();
+    }
+
+    function resetArray () {
+        gameArray.length = 0;
+        gameArray.length = 9;
+        gameArray.fill('');   
+    }
 
     const completedGame = () => {
         const scanLine = (i, j, k) => {
@@ -26,6 +45,7 @@ const gameboard = (function () {
         if (winnerFound) {
             return true;
         } else if (!winnerFound && !gameArray.includes('')) {
+            tiedGame = true;
             return true;
         } else {
             return false;
@@ -33,30 +53,44 @@ const gameboard = (function () {
     }
 
     function markTile (event) {
-        let index = +event.currentTarget.className;
+        if (completedGame()) {
+            return;
+        }
+        let index = +event.currentTarget.className.split(' ')[0];
         if (gameArray[index] === '') {
             gameArray[index] = playerTurn;
+            if (completedGame()) {
+                const displayMessage = document.createTextNode(findWinner());
+                resultDisplay.appendChild(displayMessage);
+            }
             playerTurn = playerTurn === 'X' ? 'O' : 'X';
             displayController.updateDisplay();
         }
     }
 
-    return {gameArray, completedGame, markTile};
-})();
+    function findWinner() {
+        if (tiedGame) {
+            return "Tie";
+        } else if (playerTurn === 'X') {
+            return `${player1} wins.`;
+        } else {
+            return `${player2} wins.`;
+        }
+    }
 
-gameboard.gameArray[0] = 'x';
-gameboard.gameArray[1] = '0';
-gameboard.gameArray[2] = 'x';
+    return {gameArray, completedGame, markTile, newGame};
+})();
 
 const displayController = (function () {
     const tilesGrid = document.createElement("div");
+    tilesGrid.classList.add("tiles-grid")
     document.body.appendChild(tilesGrid);  
 
     const updateDisplay = () => {
         tilesGrid.innerHTML = "";
         gameboard.gameArray.forEach((value, index) => {
             const tile = document.createElement("div");
-            tile.classList.add(`${index}`)
+            tile.classList.add(`${index}`, "tile");
             tile.addEventListener("click", gameboard.markTile);
             const tileContent = document.createTextNode(value);
             tile.appendChild(tileContent);
@@ -65,5 +99,12 @@ const displayController = (function () {
     }
     return {updateDisplay};
 })();
+
+
+const start = document.getElementById("start");
+start.addEventListener("click", gameboard.newGame);
+
+const resultDisplay = document.createElement("p");
+document.body.appendChild(resultDisplay);  
 
 displayController.updateDisplay();
