@@ -8,10 +8,41 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-top: 10px;
 }
 
-.tiles-grid {
+form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+}
 
+.form-row > label {
+    background-color: rgba(157, 210, 245, 0.856);
+    border-radius: 3px;
+    border-width: 0;
+    padding: 2px 11px;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    margin-right: 4px;
+}
+
+#start {
+    background-color: rgba(68, 173, 243, 0.712);
+    border-radius: 6px;
+    border-width: 0;
+    display: inline-block;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    padding: 6px 14px;
+    text-align: center;
+    margin: 10px 0px 15px 0px;
+}
+
+
+.tiles-grid {
     display: grid;
     grid-template-rows: 120px 120px 120px;
     grid-template-columns: 120px 120px 120px;
@@ -21,8 +52,23 @@ body {
 
 .tile {
     border: 2px black solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Helvetica";
+    font-size: 75px;
 }
 
-.form-row {
+.X {
+    color: rgb(99, 162, 235);
+}
 
+.O {
+    color: rgb(228, 98, 98);
+}
+
+.results {
+    margin-top: 15px;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
 }

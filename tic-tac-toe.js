@@ -61,6 +61,7 @@ const gameboard = (function () {
             gameArray[index] = playerTurn;
             if (completedGame()) {
                 const displayMessage = document.createTextNode(findWinner());
+                resultDisplay.classList.add("results");
                 resultDisplay.appendChild(displayMessage);
             }
             playerTurn = playerTurn === 'X' ? 'O' : 'X';
@@ -90,7 +91,11 @@ const displayController = (function () {
         tilesGrid.innerHTML = "";
         gameboard.gameArray.forEach((value, index) => {
             const tile = document.createElement("div");
-            tile.classList.add(`${index}`, "tile");
+            if (value) {
+                tile.classList.add(`${index}`, "tile", `${value}`);
+            } else {
+                tile.classList.add(`${index}`, "tile");
+            }
             tile.addEventListener("click", gameboard.markTile);
             const tileContent = document.createTextNode(value);
             tile.appendChild(tileContent);
