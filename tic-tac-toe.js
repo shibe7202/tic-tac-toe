@@ -105,7 +105,6 @@ const displayController = (function () {
     return {updateDisplay};
 })();
 
-
 const start = document.getElementById("start");
 start.addEventListener("click", gameboard.newGame);
 
